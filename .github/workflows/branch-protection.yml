@@ -3,7 +3,7 @@ name: Git Flow Branch Protection
 on:
   pull_request:
     branches:
-      - main
+      - master
       - develop
 
 jobs:
@@ -11,20 +11,20 @@ jobs:
     name: 🛡️ Validate Git Flow
     runs-on: ubuntu-latest
     steps:
-      - name: Check merge source for main
-        if: github.base_ref == 'main'
+      - name: Check merge source for master
+        if: github.base_ref == 'master'
         run: |
           SOURCE="${{ github.head_ref }}"
-          echo "🔍 PR source branch: $SOURCE → main"
+          echo "🔍 PR source branch: $SOURCE → master"
 
           if [[ "$SOURCE" == release/* ]] || [[ "$SOURCE" == hotfix/* ]]; then
-            echo "✅ Valid Git Flow merge: $SOURCE → main"
+            echo "✅ Valid Git Flow merge: $SOURCE → master"
           else
-            echo "❌ BLOCKED: Only 'release/*' and 'hotfix/*' branches can merge into 'main'."
+            echo "❌ BLOCKED: Only 'release/*' and 'hotfix/*' branches can merge into 'master'."
             echo ""
             echo "Git Flow rules:"
-            echo "  - release/* → main (release finish)"
-            echo "  - hotfix/*  → main (hotfix finish)"
+            echo "  - release/* → master (release finish)"
+            echo "  - hotfix/*  → master (hotfix finish)"
             echo ""
             echo "Current source: $SOURCE"
             exit 1
