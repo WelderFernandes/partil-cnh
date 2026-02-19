@@ -36,7 +36,7 @@ Git Flow é um modelo de branching que organiza o desenvolvimento em branches co
 ### Estrutura de Branches
 
 ```
-main ─────────────────────────────────── (produção - sempre estável)
+master ─────────────────────────────────── (produção - sempre estável)
  │
  └── develop ─────────────────────────── (desenvolvimento - próxima versão)
       │
