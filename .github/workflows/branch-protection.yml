@@ -1,0 +1,52 @@
+name: Git Flow Branch Protection
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  validate-git-flow:
+    name: 🛡️ Validate Git Flow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check merge source for main
+        if: github.base_ref == 'main'
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          echo "🔍 PR source branch: $SOURCE → main"
+
+          if [[ "$SOURCE" == release/* ]] || [[ "$SOURCE" == hotfix/* ]]; then
+            echo "✅ Valid Git Flow merge: $SOURCE → main"
+          else
+            echo "❌ BLOCKED: Only 'release/*' and 'hotfix/*' branches can merge into 'main'."
+            echo ""
+            echo "Git Flow rules:"
+            echo "  - release/* → main (release finish)"
+            echo "  - hotfix/*  → main (hotfix finish)"
+            echo ""
+            echo "Current source: $SOURCE"
+            exit 1
+          fi
+
+      - name: Check merge source for develop
+        if: github.base_ref == 'develop'
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          echo "🔍 PR source branch: $SOURCE → develop"
+
+          if [[ "$SOURCE" == feature/* ]] || [[ "$SOURCE" == bugfix/* ]] || [[ "$SOURCE" == release/* ]] || [[ "$SOURCE" == hotfix/* ]]; then
+            echo "✅ Valid Git Flow merge: $SOURCE → develop"
+          else
+            echo "❌ BLOCKED: Only 'feature/*', 'bugfix/*', 'release/*', and 'hotfix/*' branches can merge into 'develop'."
+            echo ""
+            echo "Git Flow rules:"
+            echo "  - feature/* → develop"
+            echo "  - bugfix/*  → develop"
+            echo "  - release/* → develop (release finish)"
+            echo "  - hotfix/*  → develop (hotfix finish)"
+            echo ""
+            echo "Current source: $SOURCE"
+            exit 1
+          fi
