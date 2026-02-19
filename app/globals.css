@@ -1,41 +1,101 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:is(.dark *));
+
+/* ══════════════════════════════════════════════════
+   Via Amiga – Design Tokens (from Stitch PRD)
+   ══════════════════════════════════════════════════ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
+  /* Backgrounds */
+  --background: #fdfbf7; /* Warm Cream */
+  --surface: #ffffff;
+
+  /* Text */
+  --foreground: #4a4a4a; /* Charcoal */
+  --text-muted: #9ca3af; /* Warm Grey */
+
+  /* Brand */
   --primary: #13eca0;
-  --primary-dark: #0cc584;
-  --primary-light: #d1fae5;
-  --accent: #0f172a;
-  --muted: #64748b;
-  --card-bg: #f8fafc;
-  --card-border: #e2e8f0;
+  --primary-dark: #0eb57a;
+  --accent: #c6b6d9; /* Soft Lavender */
+
+  /* Utility */
+  --card-bg: #ffffff;
+  --card-border: #f0ede8;
+  --star: #fbbf24;
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --color-foreground: var(--foreground);
+  --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
-  --color-primary-light: var(--primary-light);
   --color-accent: var(--accent);
-  --color-muted: var(--muted);
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
+  --color-star: var(--star);
   --font-sans: var(--font-spline-sans);
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  --animate-shiny-text: shiny-text 8s infinite;
+  @keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+    }
+  }
+  @keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+    }
+  15%, 35% {
+    transform: translateZ(0) rotate(90deg);
+    }
+  65%, 85% {
+    transform: translateZ(0) rotate(270deg);
+    }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+    }
+  }
+  @keyframes marquee {
+  from {
+    transform: translateX(0);
+    }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+    }
+  to {
+    transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+  @keyframes shiny-text {
+  0%, 90%, 100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+    }
+  30%, 60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+    }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #020617;
-    --foreground: #f1f5f9;
-    --primary: #13eca0;
-    --primary-dark: #0cc584;
-    --primary-light: #064e3b;
-    --accent: #f1f5f9;
-    --muted: #94a3b8;
-    --card-bg: #0f172a;
-    --card-border: #1e293b;
+    --background: #10221c;
+    --surface: #162e26;
+    --foreground: #e8e4df;
+    --text-muted: #94a3b8;
+    --card-bg: #162e26;
+    --card-border: #1e3a30;
   }
 }
 
@@ -45,75 +105,59 @@ body {
   font-family: var(--font-spline-sans), system-ui, sans-serif;
 }
 
-/* Smooth scroll */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
+/* ═══ Blob Shape (from Stitch) ═══ */
+.blob-shape {
+  border-radius: 64% 36% 27% 73% / 55% 58% 42% 45%;
 }
 
+/* ═══ Custom Scrollbar ═══ */
+::-webkit-scrollbar {
+  width: 5px;
+}
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: var(--card-border);
   border-radius: 999px;
 }
 
-/* Animations */
+/* ═══ Shadows (from Stitch) ═══ */
+.shadow-soft {
+  box-shadow: 0 10px 40px -10px rgba(19, 236, 160, 0.15);
+}
+.shadow-card {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* ═══ Animations ═══ */
 @keyframes float {
   0%,
   100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
     transform: translateY(0);
   }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
-@keyframes pulse-glow {
+@keyframes pulse-dot {
   0%,
   100% {
-    box-shadow: 0 0 0 0 rgba(19, 236, 160, 0.4);
+    opacity: 1;
   }
   50% {
-    box-shadow: 0 0 20px 10px rgba(19, 236, 160, 0.1);
+    opacity: 0.4;
   }
 }
 
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
-}
-
-.animate-pulse-glow {
-  animation: pulse-glow 3s ease-in-out infinite;
-}
-
-.animation-delay-200 {
-  animation-delay: 200ms;
-}
-.animation-delay-400 {
-  animation-delay: 400ms;
-}
-.animation-delay-600 {
-  animation-delay: 600ms;
+.animate-pulse-dot {
+  animation: pulse-dot 2s ease-in-out infinite;
 }
