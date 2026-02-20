@@ -1,0 +1,34 @@
+{
+  "name": "Protect master",
+  "target": "branch",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "include": ["refs/heads/master"],
+      "exclude": []
+    }
+  },
+  "rules": [
+    {
+      "type": "pull_request",
+      "parameters": {
+        "required_approving_review_count": 0,
+        "dismiss_stale_reviews_on_push": true,
+        "require_last_push_approval": false,
+        "require_code_owner_review": false
+      }
+    },
+    {
+      "type": "required_status_checks",
+      "parameters": {
+        "strict_required_status_checks_policy": true,
+        "required_status_checks": [
+          { "context": "🔍 Lint", "integration_id": null },
+          { "context": "🔤 Type Check", "integration_id": null },
+          { "context": "🏗️ Build", "integration_id": null },
+          { "context": "🛡️ Validate Git Flow", "integration_id": null }
+        ]
+      }
+    }
+  ]
+}
