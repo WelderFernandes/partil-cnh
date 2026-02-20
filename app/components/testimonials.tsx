@@ -2,14 +2,11 @@
 
 import Image from "next/image";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { MagicCard } from "@/components/ui/magic-card";
-import { Marquee } from "@/components/ui/marquee";
-import { DotPattern } from "@/components/ui/dot-pattern";
 
 const testimonials = [
   {
     quote:
-      "Eu estava apavorada com estradas, mas a Sara foi tão calma. Ela realmente pausou a aula quando viu que eu estava ficando sobrecarregada.",
+      "Eu nunca pensei que pudesse dirigir sem meu coração disparar. Sara criou um espaço onde estava tudo bem respirar. Não apenas aprendi a dirigir; aprendi a confiar em mim mesma.",
     name: "Emily R.",
     location: "São Paulo, SP",
     avatar:
@@ -18,7 +15,7 @@ const testimonials = [
   },
   {
     quote:
-      "Meu instrutor Marcus era especialista em 'pânico de estacionamento'. Ele usou carrinhos de brinquedo para explicar os ângulos. Mudou tudo!",
+      "A compatibilidade do 'Vibe Check' é incrível. Meu instrutor Marcus entendeu exatamente como lidar com a ansiedade de estacionamento usando metáforas calmantes. Uma mudança total.",
     name: "James T.",
     location: "Curitiba, PR",
     avatar:
@@ -27,7 +24,7 @@ const testimonials = [
   },
   {
     quote:
-      "O recurso de compatibilidade é real. Combinei com um instrutor 'Silencioso e Solidário' porque não consigo conversar enquanto me concentro.",
+      "Encontrar um tipo 'Silencioso e Solidário' foi exatamente o que eu precisava. Sem conversa desnecessária, apenas encorajamento tranquilo e uma presença firme ao meu lado.",
     name: "Sofia L.",
     location: "Belo Horizonte, MG",
     avatar:
@@ -38,11 +35,11 @@ const testimonials = [
 
 function StarRating({ rating }: { rating: number }) {
   return (
-    <div className="flex gap-1">
+    <div className="text-accent flex gap-0.5">
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className={`h-4 w-4 ${i < Math.floor(rating) ? "fill-star text-star" : "fill-gray-200 text-gray-200"}`}
+          className={`h-5 w-5 ${i < Math.floor(rating) ? "fill-current" : "fill-current opacity-30"}`}
           viewBox="0 0 24 24"
         >
           <path d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z" />
@@ -52,87 +49,55 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
-function TestimonialCard({
-  testimonial,
-}: {
-  testimonial: (typeof testimonials)[0];
-}) {
-  return (
-    <MagicCard
-      className="shadow-card w-[350px] min-w-[300px] overflow-hidden rounded-3xl md:w-auto md:min-w-0"
-      gradientColor="rgba(19, 236, 160, 0.08)"
-      gradientFrom="#13eca0"
-      gradientTo="#c6b6d9"
-      gradientOpacity={0.3}
-    >
-      <div className="flex h-full flex-col gap-6 p-8">
-        <StarRating rating={testimonial.rating} />
-        <p className="text-foreground leading-relaxed font-medium">
-          &ldquo;{testimonial.quote}&rdquo;
-        </p>
-        <div className="mt-auto flex items-center gap-4">
-          <Image
-            src={testimonial.avatar}
-            alt={`Foto de ${testimonial.name}`}
-            width={48}
-            height={48}
-            className="h-12 w-12 rounded-full object-cover"
-          />
-          <div>
-            <p className="text-foreground text-sm font-bold">
-              {testimonial.name}
-            </p>
-            <p className="text-text-muted text-xs">{testimonial.location}</p>
-          </div>
-        </div>
-      </div>
-    </MagicCard>
-  );
-}
-
 export function Testimonials() {
   return (
-    <section className="bg-surface relative overflow-hidden py-24">
-      {/* Dot Pattern Background */}
-      <DotPattern
-        className="[mask-image:radial-gradient(ellipse_at_center,white,transparent_70%)] opacity-20"
-        cr={0.8}
-        width={24}
-        height={24}
-      />
+    <section className="relative px-8 py-32">
+      <div className="mx-auto max-w-7xl">
+        {/* Header */}
+        <BlurFade className="mb-20 space-y-4 text-center" inView>
+          <h2 className="font-display text-foreground text-4xl font-light md:text-5xl">
+            Vozes da nossa{" "}
+            <span className="text-accent italic">comunidade.</span>
+          </h2>
+          <p className="text-text-muted mx-auto max-w-xl font-light">
+            Histórias reais de alunos que reconquistaram sua liberdade na
+            estrada através de orientação gentil e especializada.
+          </p>
+        </BlurFade>
 
-      {/* Background decoration */}
-      <div className="pointer-events-none absolute top-0 left-0 h-full w-full opacity-30">
-        <div className="bg-accent/30 absolute top-1/4 right-0 h-96 w-96 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative z-10 mx-auto max-w-7xl px-6">
-        <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
-          <BlurFade className="max-w-lg" inView>
-            <h2 className="text-foreground mb-4 text-3xl font-bold md:text-4xl">
-              Não acredite só na gente.
-            </h2>
-            <p className="text-text-muted text-lg">
-              Ouça de alunos que acharam que nunca iriam dirigir.
-            </p>
-          </BlurFade>
-        </div>
-
-        {/* Desktop: Grid, Mobile: Marquee */}
-        <div className="hidden md:grid md:grid-cols-3 md:gap-6">
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {testimonials.map((t, i) => (
             <BlurFade key={t.name} delay={i * 0.15} inView>
-              <TestimonialCard testimonial={t} />
+              <div
+                className={`glass-panel flex flex-col gap-8 rounded-[3rem] p-10 transition-transform duration-500 ${
+                  i === 1
+                    ? "translate-y-8 hover:translate-y-6"
+                    : "hover:-translate-y-2"
+                }`}
+              >
+                <StarRating rating={t.rating} />
+                <p className="text-foreground text-lg leading-relaxed font-light italic">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="mt-auto flex items-center gap-4">
+                  <Image
+                    src={t.avatar}
+                    alt={t.name}
+                    width={48}
+                    height={48}
+                    className="border-glass-border h-12 w-12 rounded-full border-2 object-cover"
+                  />
+                  <div>
+                    <p className="text-foreground text-sm font-medium">
+                      {t.name}
+                    </p>
+                    <p className="text-text-muted text-xs">{t.location}</p>
+                  </div>
+                </div>
+              </div>
             </BlurFade>
           ))}
-        </div>
-
-        <div className="md:hidden">
-          <Marquee pauseOnHover className="[--duration:25s]">
-            {testimonials.map((t) => (
-              <TestimonialCard key={t.name} testimonial={t} />
-            ))}
-          </Marquee>
         </div>
       </div>
     </section>
