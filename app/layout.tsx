@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Spline_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans, Instrument_Sans } from "next/font/google";
 import "./globals.css";
 
-const splineSans = Spline_Sans({
-  variable: "--font-spline-sans",
+const plusJakartaSans = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600"],
+});
+
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -33,8 +40,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={`${splineSans.variable} antialiased`}>{children}</body>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body
+        className={`${plusJakartaSans.variable} ${instrumentSans.variable} antialiased`}
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
     </html>
   );
 }

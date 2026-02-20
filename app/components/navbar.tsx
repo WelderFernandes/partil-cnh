@@ -6,13 +6,13 @@ export function Navbar() {
   return (
     <>
       <ScrollProgress className="from-primary via-accent to-primary h-[2px] bg-gradient-to-r" />
-      <header className="bg-background/90 fixed top-0 right-0 left-0 z-50 border-b border-gray-100/50 backdrop-blur-md transition-all duration-300">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
+      <header className="fixed top-0 right-0 left-0 z-50 transition-all duration-500">
+        <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="bg-primary/20 text-primary flex h-10 w-10 items-center justify-center rounded-full">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/50 bg-white/60 shadow-sm backdrop-blur-md">
               <svg
-                className="h-5 w-5"
+                className="text-primary h-5 w-5"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
@@ -25,32 +25,37 @@ export function Navbar() {
                 />
               </svg>
             </div>
-            <h1 className="text-foreground text-xl font-bold tracking-tight">
-              Via Amiga
-            </h1>
+            <span className="text-xl font-medium tracking-wide">Via Amiga</span>
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden items-center gap-8 md:flex">
+          <nav className="hidden items-center gap-10 md:flex">
             <a
               href="#"
-              className="text-foreground hover:text-primary text-sm font-medium transition-colors"
+              className="hover:text-primary text-sm font-medium transition-colors"
             >
-              Para Instrutores
+              Nossa Filosofia
             </a>
             <a
               href="#"
-              className="text-foreground hover:text-primary text-sm font-medium transition-colors"
+              className="hover:text-primary text-sm font-medium transition-colors"
+            >
+              Segurança
+            </a>
+            <div className="h-4 w-px bg-gray-200" />
+            <a
+              href="#"
+              className="hover:text-primary text-sm font-medium transition-colors"
             >
               Entrar
             </a>
-            <button className="bg-primary shadow-soft hover:bg-primary-dark transform rounded-full px-6 py-3 text-sm font-bold text-[#10221c] transition-all hover:-translate-y-0.5 hover:shadow-lg">
-              Cadastre-se
+            <button className="bg-primary/90 hover:bg-primary rounded-full px-8 py-3.5 text-sm font-medium text-white shadow-lg transition-all hover:scale-[1.02] active:scale-95">
+              Comece Sua Jornada
             </button>
-          </div>
+          </nav>
 
           {/* Mobile Menu */}
-          <button className="text-foreground p-2 md:hidden">
+          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/50 md:hidden">
             <svg
               className="h-6 w-6"
               fill="none"

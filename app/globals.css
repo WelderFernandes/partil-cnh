@@ -3,27 +3,29 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ══════════════════════════════════════════════════
-   Via Amiga – Design Tokens (from Stitch PRD)
+   Via Amiga – Design Tokens (Stitch-Faithful)
    ══════════════════════════════════════════════════ */
 
 :root {
   /* Backgrounds */
-  --background: #fdfbf7; /* Warm Cream */
+  --background: #fefcf9;
   --surface: #ffffff;
 
   /* Text */
-  --foreground: #4a4a4a; /* Charcoal */
-  --text-muted: #9ca3af; /* Warm Grey */
+  --foreground: #3d3d3d;
+  --text-muted: #9ca3af;
 
   /* Brand */
-  --primary: #13eca0;
-  --primary-dark: #0eb57a;
-  --accent: #c6b6d9; /* Soft Lavender */
+  --primary: #6ec6a5;
+  --primary-dark: #5ab894;
+  --primary-soft: rgba(110, 198, 165, 0.12);
+  --accent: #d4c7e8;
+  --ethereal-glow: rgba(212, 199, 232, 0.15);
 
   /* Utility */
   --card-bg: #ffffff;
-  --card-border: #f0ede8;
-  --star: #fbbf24;
+  --card-border: #f3f0eb;
+  --star: #d4c7e8;
 }
 
 @theme inline {
@@ -33,83 +35,130 @@
   --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
+  --color-primary-soft: var(--primary-soft);
   --color-accent: var(--accent);
+  --color-ethereal-glow: var(--ethereal-glow);
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-star: var(--star);
-  --font-sans: var(--font-spline-sans);
-  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --font-display: var(--font-instrument-sans);
+  --font-body: var(--font-plus-jakarta-sans);
+  --shadow-ethereal: 0 20px 50px -15px rgba(110, 198, 165, 0.1);
+  --shadow-magic: 0 0 40px rgba(212, 199, 232, 0.08);
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite
+    alternate;
   --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
   --animate-marquee: marquee var(--duration) infinite linear;
   --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
   --animate-shiny-text: shiny-text 8s infinite;
   @keyframes shimmer-slide {
-  to {
-    transform: translate(calc(100cqw - 100%), 0);
+    to {
+      transform: translate(calc(100cqw - 100%), 0);
     }
   }
   @keyframes spin-around {
-  0% {
-    transform: translateZ(0) rotate(0);
+    0% {
+      transform: translateZ(0) rotate(0);
     }
-  15%, 35% {
-    transform: translateZ(0) rotate(90deg);
+    15%,
+    35% {
+      transform: translateZ(0) rotate(90deg);
     }
-  65%, 85% {
-    transform: translateZ(0) rotate(270deg);
+    65%,
+    85% {
+      transform: translateZ(0) rotate(270deg);
     }
-  100% {
-    transform: translateZ(0) rotate(360deg);
+    100% {
+      transform: translateZ(0) rotate(360deg);
     }
   }
   @keyframes marquee {
-  from {
-    transform: translateX(0);
+    from {
+      transform: translateX(0);
     }
-  to {
-    transform: translateX(calc(-100% - var(--gap)));
+    to {
+      transform: translateX(calc(-100% - var(--gap)));
     }
   }
   @keyframes marquee-vertical {
-  from {
-    transform: translateY(0);
+    from {
+      transform: translateY(0);
     }
-  to {
-    transform: translateY(calc(-100% - var(--gap)));
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
     }
   }
   @keyframes shiny-text {
-  0%, 90%, 100% {
-    background-position: calc(-100% - var(--shiny-width)) 0;
+    0%,
+    90%,
+    100% {
+      background-position: calc(-100% - var(--shiny-width)) 0;
     }
-  30%, 60% {
-    background-position: calc(100% + var(--shiny-width)) 0;
+    30%,
+    60% {
+      background-position: calc(100% + var(--shiny-width)) 0;
     }
   }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #10221c;
-    --surface: #162e26;
-    --foreground: #e8e4df;
-    --text-muted: #94a3b8;
-    --card-bg: #162e26;
-    --card-border: #1e3a30;
+    --background: #fefcf9;
+    --surface: #ffffff;
+    --foreground: #3d3d3d;
+    --text-muted: #9ca3af;
+    --card-bg: #ffffff;
+    --card-border: #f3f0eb;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-spline-sans), system-ui, sans-serif;
+  font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(212, 199, 232, 0.08) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(110, 198, 165, 0.06) 0px, transparent 50%);
 }
 
 html {
   scroll-behavior: smooth;
 }
 
-/* ═══ Blob Shape (from Stitch) ═══ */
+h1,
+h2,
+h3 {
+  font-family: var(--font-instrument-sans), sans-serif;
+  letter-spacing: -0.025em;
+}
+
+/* ═══ Glass Panel (Stitch) ═══ */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-ethereal);
+}
+
+/* ═══ Glow Orbs (Stitch) ═══ */
+.glow-orb {
+  filter: blur(100px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+
+/* ═══ Magic Gradient ═══ */
+.magic-gradient {
+  background: linear-gradient(135deg, #fdfbf7 0%, #f5f3ef 100%);
+}
+
+/* ═══ Asymmetric Shape ═══ */
+.asymmetric-shape {
+  border-radius: 60% 40% 70% 30% / 40% 50% 60% 40%;
+}
+
+/* ═══ Blob Shape ═══ */
 .blob-shape {
   border-radius: 64% 36% 27% 73% / 55% 58% 42% 45%;
 }
@@ -126,9 +175,9 @@ html {
   border-radius: 999px;
 }
 
-/* ═══ Shadows (from Stitch) ═══ */
+/* ═══ Shadows ═══ */
 .shadow-soft {
-  box-shadow: 0 10px 40px -10px rgba(19, 236, 160, 0.15);
+  box-shadow: 0 10px 40px -10px rgba(139, 184, 168, 0.15);
 }
 .shadow-card {
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
@@ -141,7 +190,7 @@ html {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-12px);
+    transform: translateY(-20px);
   }
 }
 
@@ -156,6 +205,9 @@ html {
 }
 
 .animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+.floating-element {
   animation: float 6s ease-in-out infinite;
 }
 .animate-pulse-dot {

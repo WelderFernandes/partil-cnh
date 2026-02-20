@@ -1,140 +1,53 @@
 "use client";
 
+import Image from "next/image";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { SparklesText } from "@/components/ui/sparkles-text";
 import { AnimatedShinyText } from "@/components/ui/animated-shiny-text";
-import { WordRotate } from "@/components/ui/word-rotate";
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-6 pt-32 pb-20 text-center">
-      {/* Background Blobs */}
-      <div className="blob-shape bg-accent/20 absolute top-20 left-10 -z-10 h-64 w-64 animate-pulse blur-3xl" />
-      <div className="blob-shape bg-primary/10 absolute right-10 bottom-20 -z-10 h-80 w-80 blur-3xl" />
-
-      <div className="z-10 mx-auto flex max-w-4xl flex-col items-center gap-8">
-        {/* Badge */}
-        <BlurFade inView>
-          <div className="bg-surface inline-flex items-center gap-2 rounded-full border border-gray-100 px-4 py-2 shadow-sm">
-            <span className="animate-pulse-dot bg-primary h-2 w-2 rounded-full" />
-            <AnimatedShinyText shimmerWidth={120}>
-              <span className="text-xs font-semibold tracking-wide uppercase">
-                Novo: Garantia Anti-Ansiedade
-              </span>
-            </AnimatedShinyText>
-          </div>
-        </BlurFade>
-
-        {/* Heading */}
-        <BlurFade delay={0.1} offset={20} inView>
-          <h1 className="text-foreground text-4xl leading-tight font-bold tracking-tight md:text-6xl lg:text-7xl">
-            Aprenda a dirigir
-            <br />
-            <SparklesText
-              className="text-primary inline text-4xl leading-tight font-bold tracking-tight md:text-6xl lg:text-7xl"
-              colors={{ first: "#13eca0", second: "#c6b6d9" }}
-              sparklesCount={6}
-            >
-              sem pânico.
-            </SparklesText>
-          </h1>
-        </BlurFade>
-
-        {/* Subheading with WordRotate */}
-        <BlurFade delay={0.2} inView>
-          <p className="text-text-muted max-w-2xl text-lg leading-relaxed md:text-xl">
-            Conecte-se com instrutores empáticos que priorizam sua{" "}
-            <WordRotate
-              className="text-primary inline-block font-semibold"
-              words={[
-                "paz de espírito",
-                "confiança",
-                "tranquilidade",
-                "segurança",
-              ]}
-              duration={3000}
-            />
-            . Sem gritos, apenas aprendizado.
-          </p>
-        </BlurFade>
-
-        {/* Search Component */}
-        <BlurFade
-          delay={0.3}
-          className="group relative mt-4 w-full max-w-2xl"
-          inView
-        >
-          <div className="from-primary to-accent absolute -inset-1 rounded-full bg-gradient-to-r opacity-25 blur transition duration-500 group-hover:opacity-50" />
-          <div className="shadow-soft bg-surface relative flex w-full items-center rounded-full p-2 transition-shadow duration-300 hover:shadow-xl">
-            <div className="text-text-muted pl-6">
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
-                />
-              </svg>
+    <section className="relative overflow-hidden px-8 pt-40 pb-32">
+      <div className="mx-auto grid max-w-7xl items-center gap-16 lg:grid-cols-2">
+        {/* Left: Text Content */}
+        <div className="relative z-10 space-y-8">
+          {/* Badge */}
+          <BlurFade inView>
+            <div className="text-primary inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/60 px-4 py-1.5 text-xs font-medium tracking-widest uppercase backdrop-blur-sm">
+              <span className="animate-pulse-dot bg-primary h-1.5 w-1.5 rounded-full" />
+              <AnimatedShinyText shimmerWidth={120}>
+                <span>Um jeito mais gentil de aprender</span>
+              </AnimatedShinyText>
             </div>
-            <input
-              className="text-foreground h-14 w-full border-none bg-transparent px-4 text-lg placeholder:text-gray-400 focus:ring-0 focus:outline-none"
-              placeholder="Digite seu CEP..."
-              type="text"
-            />
-            <button className="bg-primary hover:bg-primary-dark hidden h-12 items-center justify-center rounded-full px-8 font-bold whitespace-nowrap text-[#10221c] transition-colors sm:flex">
-              Encontrar Mentor
-            </button>
-            <button className="bg-primary hover:bg-primary-dark ml-2 flex h-12 w-12 items-center justify-center rounded-full text-[#10221c] transition-colors sm:hidden">
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={2}
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
-                />
-              </svg>
-            </button>
-          </div>
-        </BlurFade>
+          </BlurFade>
 
-        {/* Trust Badges */}
-        <BlurFade delay={0.4} inView>
-          <div className="text-text-muted mt-8 flex flex-wrap justify-center gap-4 text-sm font-medium md:gap-8">
-            {[
-              {
-                icon: "M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z",
-                label: "Testados em Paciência",
-              },
-              {
-                icon: "M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12",
-                label: "Carros Duplo Comando",
-              },
-              {
-                icon: "M15.182 15.182a4.5 4.5 0 0 1-6.364 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z",
-                label: "Garantia de Satisfação",
-              },
-            ].map((badge) => (
-              <div
-                key={badge.label}
-                className="bg-surface/50 flex items-center gap-2 rounded-full px-4 py-2 backdrop-blur-sm"
-              >
+          {/* Heading */}
+          <BlurFade delay={0.1} offset={20} inView>
+            <h1 className="font-display text-foreground text-5xl leading-[1.1] font-light md:text-7xl">
+              O caminho guiado <br />
+              <span className="font-serif italic opacity-80">
+                para a sua
+              </span>{" "}
+              <br />
+              <span className="text-primary font-medium">confiança.</span>
+            </h1>
+          </BlurFade>
+
+          {/* Subheading */}
+          <BlurFade delay={0.2} inView>
+            <p className="text-text-muted max-w-lg text-lg leading-relaxed font-light md:text-xl">
+              Deixe a ansiedade para trás. Conectamos você com mentores gentis
+              que cultivam paz de espírito tão eficazmente quanto habilidade
+              técnica.
+            </p>
+          </BlurFade>
+
+          {/* Search Bar */}
+          <BlurFade delay={0.3} className="group relative max-w-md" inView>
+            <div className="bg-primary-soft absolute -inset-4 rounded-[3rem] opacity-0 blur-2xl transition-opacity duration-700 group-focus-within:opacity-100" />
+            <div className="shadow-magic relative flex items-center rounded-full border border-white bg-white/80 p-2 ring-1 ring-black/5 backdrop-blur-md">
+              <div className="text-primary/60 pl-5">
                 <svg
-                  className="text-primary h-5 w-5"
+                  className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth={1.5}
@@ -143,12 +56,146 @@ export function HeroSection() {
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    d={badge.icon}
+                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
                   />
                 </svg>
-                <span>{badge.label}</span>
               </div>
-            ))}
+              <input
+                className="placeholder:text-text-muted/50 w-full border-none bg-transparent px-4 text-base focus:ring-0 focus:outline-none"
+                placeholder="Digite seu CEP..."
+                type="text"
+              />
+              <button className="bg-primary rounded-full px-8 py-4 font-medium text-white transition-all hover:shadow-lg hover:brightness-105 active:scale-95">
+                Encontrar Mentor
+              </button>
+            </div>
+          </BlurFade>
+
+          {/* Trust Badges */}
+          <BlurFade delay={0.4} inView>
+            <div className="flex flex-wrap gap-6 pt-4">
+              <div className="text-text-muted flex items-center gap-2.5 text-sm font-light">
+                <svg
+                  className="text-primary/70 h-[18px] w-[18px]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                  />
+                </svg>
+                Testados em Paciência
+              </div>
+              <div className="text-text-muted flex items-center gap-2.5 text-sm font-light">
+                <svg
+                  className="text-primary/70 h-[18px] w-[18px]"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z"
+                  />
+                </svg>
+                Segurança Emocional
+              </div>
+            </div>
+          </BlurFade>
+        </div>
+
+        {/* Right: Hero Image */}
+        <BlurFade
+          delay={0.2}
+          className="relative flex items-center justify-center lg:h-[600px]"
+          inView
+        >
+          {/* Background Shape */}
+          <div className="asymmetric-shape floating-element from-primary/10 to-accent/20 absolute inset-0 bg-gradient-to-br opacity-60 blur-2xl" />
+
+          {/* Main Image */}
+          <div className="relative aspect-square w-full max-w-[500px]">
+            <div className="absolute inset-0 rotate-3 transform overflow-hidden rounded-[3rem] border-8 border-white/50 shadow-2xl transition-transform duration-1000 hover:rotate-0">
+              <Image
+                src="/hero-driving.jpg"
+                alt="Uma jornada de condução serena"
+                fill
+                className="object-cover brightness-110 grayscale-[0.2]"
+                priority
+              />
+              <div className="from-accent/30 to-primary/20 absolute inset-0 bg-gradient-to-tr via-transparent mix-blend-soft-light" />
+            </div>
+
+            {/* Floating Card: Top-Right */}
+            <div
+              className="glass-panel floating-element absolute -top-10 -right-10 rounded-3xl p-6"
+              style={{ animationDelay: "-2s" }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="bg-primary/20 text-primary flex h-12 w-12 items-center justify-center rounded-full">
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-text-muted text-xs tracking-widest uppercase">
+                    Nível de Ansiedade
+                  </p>
+                  <p className="font-medium">0% Estresse</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Floating Card: Bottom-Left */}
+            <div
+              className="glass-panel floating-element absolute -bottom-10 -left-10 rounded-3xl p-6"
+              style={{ animationDelay: "-4s" }}
+            >
+              <div className="flex items-center gap-4">
+                <div className="bg-accent/20 text-accent flex h-12 w-12 items-center justify-center rounded-full">
+                  <svg
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09Z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <p className="text-text-muted text-xs tracking-widest uppercase">
+                    Compatibilidade
+                  </p>
+                  <p className="font-medium">Vibe Aprovada</p>
+                </div>
+              </div>
+            </div>
           </div>
         </BlurFade>
       </div>

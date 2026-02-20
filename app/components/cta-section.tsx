@@ -5,39 +5,37 @@ import { ShimmerButton } from "@/components/ui/shimmer-button";
 
 export function CtaSection() {
   return (
-    <section className="py-24">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="px-8 py-32">
+      <div className="group relative mx-auto max-w-5xl">
+        {/* Glow Behind */}
+        <div className="bg-primary/20 absolute inset-0 rounded-[4rem] blur-3xl transition-transform duration-1000 group-hover:scale-110" />
+
         <BlurFade inView>
-          <div className="from-primary via-primary-dark relative overflow-hidden rounded-3xl bg-gradient-to-br to-[#10221c] p-12 text-center md:p-20">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]" />
-            <div className="relative">
-              <h2 className="mb-4 text-3xl font-bold text-white md:text-5xl">
-                Pronto para começar?
+          <div className="glass-panel relative overflow-hidden rounded-[4rem] p-16 text-center">
+            {/* Decorative Orb */}
+            <div className="bg-accent/20 absolute -top-24 -right-24 h-64 w-64 rounded-full blur-3xl" />
+
+            <div className="relative space-y-10">
+              <h2 className="font-display mx-auto max-w-2xl text-4xl font-light md:text-5xl">
+                Pronto para começar sua{" "}
+                <span className="text-primary italic">jornada tranquila</span>?
               </h2>
-              <p className="mx-auto mb-8 max-w-lg text-lg text-white/80">
-                Junte-se a mais de 12.000 motoristas que superaram o medo e
-                conquistaram a liberdade.
+              <p className="text-text-muted mx-auto max-w-md font-light">
+                Junte-se a mais de 12.000 pessoas que transformaram seu medo de
+                dirigir em confiança silenciosa. Estamos com você em cada curva.
               </p>
-              <ShimmerButton
-                shimmerColor="rgba(19, 236, 160, 0.5)"
-                background="white"
-                className="mx-auto gap-2 px-8 py-4 text-base font-bold !text-[#10221c]"
-              >
-                Encontrar Meu Instrutor
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2.5}
-                  stroke="currentColor"
+              <div className="flex flex-col items-center justify-center gap-6 sm:flex-row">
+                <ShimmerButton
+                  shimmerColor="rgba(110, 198, 165, 0.5)"
+                  background="#6ec6a5"
+                  className="w-full gap-2 rounded-full px-10 py-5 text-lg font-medium !text-white sm:w-auto"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </ShimmerButton>
+                  Encontrar Seu Mentor Gentil
+                </ShimmerButton>
+                <button className="border-primary/20 w-full rounded-full border px-10 py-5 text-lg font-medium transition-all hover:bg-white/40 sm:w-auto">
+                  Saiba Mais
+                </button>
+              </div>
             </div>
           </div>
         </BlurFade>
