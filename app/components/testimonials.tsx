@@ -55,7 +55,7 @@ export function Testimonials() {
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <BlurFade className="mb-20 space-y-4 text-center" inView>
-          <h2 className="font-display text-4xl font-light md:text-5xl">
+          <h2 className="font-display text-foreground text-4xl font-light md:text-5xl">
             Vozes da nossa{" "}
             <span className="text-accent italic">comunidade.</span>
           </h2>
@@ -77,7 +77,7 @@ export function Testimonials() {
                 }`}
               >
                 <StarRating rating={t.rating} />
-                <p className="text-lg leading-relaxed font-light italic">
+                <p className="text-foreground text-lg leading-relaxed font-light italic">
                   &ldquo;{t.quote}&rdquo;
                 </p>
                 <div className="mt-auto flex items-center gap-4">
@@ -86,10 +86,12 @@ export function Testimonials() {
                     alt={t.name}
                     width={48}
                     height={48}
-                    className="h-12 w-12 rounded-full border-2 border-white object-cover"
+                    className="border-glass-border h-12 w-12 rounded-full border-2 object-cover"
                   />
                   <div>
-                    <p className="text-sm font-medium">{t.name}</p>
+                    <p className="text-foreground text-sm font-medium">
+                      {t.name}
+                    </p>
                     <p className="text-text-muted text-xs">{t.location}</p>
                   </div>
                 </div>

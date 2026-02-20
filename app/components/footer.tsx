@@ -1,6 +1,6 @@
 export function Footer() {
   return (
-    <footer className="relative border-t border-white/50 px-8 py-20">
+    <footer className="border-glass-border relative border-t px-8 py-20">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-4">
         {/* Brand - Spans 2 cols */}
         <div className="col-span-2 space-y-6">
@@ -20,7 +20,9 @@ export function Footer() {
                 />
               </svg>
             </div>
-            <span className="text-lg font-medium tracking-wide">Via Amiga</span>
+            <span className="text-foreground text-lg font-medium tracking-wide">
+              Via Amiga
+            </span>
           </div>
           <p className="text-text-muted max-w-sm font-light">
             Reinventando a educação de motoristas através das lentes do
@@ -29,7 +31,7 @@ export function Footer() {
           <div className="flex gap-4">
             <a
               href="#"
-              className="text-text-muted hover:border-primary hover:text-primary flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 transition-all"
+              className="border-card-border text-text-muted hover:border-primary hover:text-primary flex h-10 w-10 items-center justify-center rounded-full border transition-all"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -41,7 +43,7 @@ export function Footer() {
             </a>
             <a
               href="#"
-              className="text-text-muted hover:border-primary hover:text-primary flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 transition-all"
+              className="border-card-border text-text-muted hover:border-primary hover:text-primary flex h-10 w-10 items-center justify-center rounded-full border transition-all"
             >
               <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                 <path
@@ -59,7 +61,7 @@ export function Footer() {
           <h4 className="text-text-muted text-sm font-medium tracking-widest uppercase">
             Exploração
           </h4>
-          <ul className="space-y-4 text-sm font-light">
+          <ul className="text-foreground space-y-4 text-sm font-light">
             <li>
               <a href="#" className="hover:text-primary transition-colors">
                 Instrutores
@@ -88,7 +90,7 @@ export function Footer() {
           <h4 className="text-text-muted text-sm font-medium tracking-widest uppercase">
             Orientação
           </h4>
-          <ul className="space-y-4 text-sm font-light">
+          <ul className="text-foreground space-y-4 text-sm font-light">
             <li>
               <a href="#" className="hover:text-primary transition-colors">
                 Central de Suporte
@@ -114,7 +116,7 @@ export function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="text-text-muted/60 mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-4 border-t border-gray-100 pt-8 text-xs tracking-widest uppercase md:flex-row">
+      <div className="border-card-border text-text-muted/60 mx-auto mt-20 flex max-w-7xl flex-col items-center justify-between gap-4 border-t pt-8 text-xs tracking-widest uppercase md:flex-row">
         <p>© 2024 Via Amiga. Todos os direitos reservados.</p>
         <p>Feito com intenção calma.</p>
       </div>

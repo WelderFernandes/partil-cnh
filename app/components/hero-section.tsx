@@ -12,7 +12,7 @@ export function HeroSection() {
         <div className="relative z-10 space-y-8">
           {/* Badge */}
           <BlurFade inView>
-            <div className="text-primary inline-flex items-center gap-2 rounded-full border border-white/50 bg-white/60 px-4 py-1.5 text-xs font-medium tracking-widest uppercase backdrop-blur-sm">
+            <div className="border-glass-border bg-glass-bg text-primary inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium tracking-widest uppercase backdrop-blur-sm">
               <span className="animate-pulse-dot bg-primary h-1.5 w-1.5 rounded-full" />
               <AnimatedShinyText shimmerWidth={120}>
                 <span>Um jeito mais gentil de aprender</span>
@@ -44,7 +44,7 @@ export function HeroSection() {
           {/* Search Bar */}
           <BlurFade delay={0.3} className="group relative max-w-md" inView>
             <div className="bg-primary-soft absolute -inset-4 rounded-[3rem] opacity-0 blur-2xl transition-opacity duration-700 group-focus-within:opacity-100" />
-            <div className="shadow-magic relative flex items-center rounded-full border border-white bg-white/80 p-2 ring-1 ring-black/5 backdrop-blur-md">
+            <div className="shadow-magic border-glass-border bg-glass-bg relative flex items-center rounded-full border p-2 ring-1 ring-black/5 backdrop-blur-md dark:ring-white/5">
               <div className="text-primary/60 pl-5">
                 <svg
                   className="h-5 w-5"
@@ -66,7 +66,7 @@ export function HeroSection() {
                 </svg>
               </div>
               <input
-                className="placeholder:text-text-muted/50 w-full border-none bg-transparent px-4 text-base focus:ring-0 focus:outline-none"
+                className="text-foreground placeholder:text-text-muted/50 w-full border-none bg-transparent px-4 text-base focus:ring-0 focus:outline-none"
                 placeholder="Digite seu CEP..."
                 type="text"
               />
@@ -126,7 +126,7 @@ export function HeroSection() {
 
           {/* Main Image */}
           <div className="relative aspect-square w-full max-w-[500px]">
-            <div className="absolute inset-0 rotate-3 transform overflow-hidden rounded-[3rem] border-8 border-white/50 shadow-2xl transition-transform duration-1000 hover:rotate-0">
+            <div className="border-glass-border absolute inset-0 rotate-3 transform overflow-hidden rounded-[3rem] border-8 shadow-2xl transition-transform duration-1000 hover:rotate-0">
               <Image
                 src="/hero-driving.jpg"
                 alt="Uma jornada de condução serena"
@@ -162,7 +162,7 @@ export function HeroSection() {
                   <p className="text-text-muted text-xs tracking-widest uppercase">
                     Nível de Ansiedade
                   </p>
-                  <p className="font-medium">0% Estresse</p>
+                  <p className="text-foreground font-medium">0% Estresse</p>
                 </div>
               </div>
             </div>
@@ -192,7 +192,7 @@ export function HeroSection() {
                   <p className="text-text-muted text-xs tracking-widest uppercase">
                     Compatibilidade
                   </p>
-                  <p className="font-medium">Vibe Aprovada</p>
+                  <p className="text-foreground font-medium">Vibe Aprovada</p>
                 </div>
               </div>
             </div>

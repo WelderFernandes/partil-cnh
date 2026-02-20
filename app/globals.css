@@ -3,7 +3,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ══════════════════════════════════════════════════
-   Via Amiga – Design Tokens (Stitch-Faithful)
+   Via Amiga – Design Tokens
    ══════════════════════════════════════════════════ */
 
 :root {
@@ -26,6 +26,31 @@
   --card-bg: #ffffff;
   --card-border: #f3f0eb;
   --star: #d4c7e8;
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --nav-glass: rgba(255, 255, 255, 0.7);
+  --nav-border: rgba(255, 255, 255, 0.6);
+}
+
+.dark {
+  --background: #0f1a16;
+  --surface: #162420;
+  --foreground: #e4e0db;
+  --text-muted: #8a9490;
+  --primary: #6ec6a5;
+  --primary-dark: #5ab894;
+  --primary-soft: rgba(110, 198, 165, 0.15);
+  --accent: #b8a8d4;
+  --ethereal-glow: rgba(184, 168, 212, 0.12);
+  --card-bg: #1a2e28;
+  --card-border: #243b34;
+  --star: #b8a8d4;
+  --glass-bg: rgba(22, 36, 32, 0.75);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --nav-glass: rgba(15, 26, 22, 0.8);
+  --nav-border: rgba(255, 255, 255, 0.06);
 }
 
 @theme inline {
@@ -41,6 +66,10 @@
   --color-card-bg: var(--card-bg);
   --color-card-border: var(--card-border);
   --color-star: var(--star);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+  --color-nav-glass: var(--nav-glass);
+  --color-nav-border: var(--nav-border);
   --font-display: var(--font-instrument-sans);
   --font-body: var(--font-plus-jakarta-sans);
   --shadow-ethereal: 0 20px 50px -15px rgba(110, 198, 165, 0.1);
@@ -101,24 +130,13 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #fefcf9;
-    --surface: #ffffff;
-    --foreground: #3d3d3d;
-    --text-muted: #9ca3af;
-    --card-bg: #ffffff;
-    --card-border: #f3f0eb;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-plus-jakarta-sans), system-ui, sans-serif;
-  background-image:
-    radial-gradient(at 0% 0%, rgba(212, 199, 232, 0.08) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(110, 198, 165, 0.06) 0px, transparent 50%);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 html {
@@ -132,25 +150,34 @@ h3 {
   letter-spacing: -0.025em;
 }
 
-/* ═══ Glass Panel (Stitch) ═══ */
+/* ═══ Glass Panel ═══ */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--glass-bg);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-ethereal);
 }
 
-/* ═══ Glow Orbs (Stitch) ═══ */
+/* ═══ Glow Orbs ═══ */
 .glow-orb {
   filter: blur(100px);
   opacity: 0.18;
   pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.dark .glow-orb {
+  opacity: 0.12;
 }
 
 /* ═══ Magic Gradient ═══ */
 .magic-gradient {
-  background: linear-gradient(135deg, #fdfbf7 0%, #f5f3ef 100%);
+  background: linear-gradient(
+    135deg,
+    var(--background) 0%,
+    var(--surface) 100%
+  );
 }
 
 /* ═══ Asymmetric Shape ═══ */
@@ -183,6 +210,13 @@ h3 {
   box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
 }
 
+.dark .shadow-soft {
+  box-shadow: 0 10px 40px -10px rgba(110, 198, 165, 0.08);
+}
+.dark .shadow-card {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
+}
+
 /* ═══ Animations ═══ */
 @keyframes float {
   0%,
@@ -212,4 +246,8 @@ h3 {
 }
 .animate-pulse-dot {
   animation: pulse-dot 2s ease-in-out infinite;
+}
+::view-transition-old(root), ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
 }

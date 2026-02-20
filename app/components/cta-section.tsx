@@ -16,7 +16,7 @@ export function CtaSection() {
             <div className="bg-accent/20 absolute -top-24 -right-24 h-64 w-64 rounded-full blur-3xl" />
 
             <div className="relative space-y-10">
-              <h2 className="font-display mx-auto max-w-2xl text-4xl font-light md:text-5xl">
+              <h2 className="font-display text-foreground mx-auto max-w-2xl text-4xl font-light md:text-5xl">
                 Pronto para começar sua{" "}
                 <span className="text-primary italic">jornada tranquila</span>?
               </h2>
@@ -32,7 +32,7 @@ export function CtaSection() {
                 >
                   Encontrar Seu Mentor Gentil
                 </ShimmerButton>
-                <button className="border-primary/20 w-full rounded-full border px-10 py-5 text-lg font-medium transition-all hover:bg-white/40 sm:w-auto">
+                <button className="border-primary/20 text-foreground hover:bg-glass-bg w-full rounded-full border px-10 py-5 text-lg font-medium transition-all sm:w-auto">
                   Saiba Mais
                 </button>
               </div>
