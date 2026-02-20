@@ -5,6 +5,7 @@ import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -12,17 +13,25 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   return (
     <>
       <ScrollProgress className="from-primary via-accent to-primary h-[2px] bg-gradient-to-r" />
       <header
         className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
-          scrolled
+          scrolled || mobileOpen
             ? "border-b border-white/60 bg-white/70 shadow-sm backdrop-blur-xl"
             : ""
         }`}
       >
-        <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-8">
+        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 md:h-24 md:px-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/50 bg-white/60 shadow-sm backdrop-blur-md">
@@ -69,22 +78,73 @@ export function Navbar() {
             </button>
           </nav>
 
-          {/* Mobile Menu */}
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-white/50 md:hidden">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="relative z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/50 transition-colors hover:bg-white/80 md:hidden"
+            aria-label={mobileOpen ? "Fechar menu" : "Abrir menu"}
+          >
             <svg
-              className="h-6 w-6"
+              className="h-6 w-6 transition-transform duration-300"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
-              />
+              {mobileOpen ? (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              ) : (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              )}
             </svg>
           </button>
+        </div>
+
+        {/* Mobile Menu Panel */}
+        <div
+          className={`overflow-hidden transition-all duration-500 ease-in-out md:hidden ${
+            mobileOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <nav className="flex flex-col gap-1 border-t border-white/40 bg-white/60 px-6 py-4 backdrop-blur-xl">
+            <a
+              href="#"
+              onClick={() => setMobileOpen(false)}
+              className="hover:bg-primary/10 hover:text-primary rounded-2xl px-4 py-3 text-base font-medium transition-colors"
+            >
+              Nossa Filosofia
+            </a>
+            <a
+              href="#"
+              onClick={() => setMobileOpen(false)}
+              className="hover:bg-primary/10 hover:text-primary rounded-2xl px-4 py-3 text-base font-medium transition-colors"
+            >
+              Segurança
+            </a>
+            <a
+              href="#"
+              onClick={() => setMobileOpen(false)}
+              className="hover:bg-primary/10 hover:text-primary rounded-2xl px-4 py-3 text-base font-medium transition-colors"
+            >
+              Entrar
+            </a>
+            <div className="mt-2 px-4 pb-2">
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="bg-primary w-full rounded-full px-8 py-4 text-base font-medium text-white shadow-lg transition-all active:scale-95"
+              >
+                Comece Sua Jornada
+              </button>
+            </div>
+          </nav>
         </div>
       </header>
     </>
