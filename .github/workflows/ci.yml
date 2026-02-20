@@ -11,13 +11,67 @@ on:
   pull_request:
     branches:
       - develop
-      - main
+      - master
 
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # ═══ Commit Message Validation ═══
+  commit-lint:
+    name: 📝 Validate Commits
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate Conventional Commits
+        run: |
+          echo "🔍 Validating commit messages in PR..."
+          VALID_PATTERN="^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\(.+\))?(!)?: .{1,}"
+          MERGE_PATTERN="^Merge "
+          ERRORS=0
+
+          while IFS= read -r MSG; do
+            if [[ "$MSG" =~ $MERGE_PATTERN ]]; then
+              echo "  ⏭️ Skipping merge commit: $MSG"
+              continue
+            fi
+
+            if [[ ! "$MSG" =~ $VALID_PATTERN ]]; then
+              echo "  ❌ Invalid: $MSG"
+              ERRORS=$((ERRORS + 1))
+            else
+              echo "  ✅ Valid: $MSG"
+            fi
+          done < <(git log --format="%s" origin/${{ github.base_ref }}..HEAD)
+
+          if [ $ERRORS -gt 0 ]; then
+            echo ""
+            echo "═══════════════════════════════════════════"
+            echo "❌ $ERRORS commit(s) with invalid messages!"
+            echo ""
+            echo "Expected format: type(scope): description"
+            echo ""
+            echo "Valid types: feat, fix, docs, style, refactor,"
+            echo "             perf, test, build, ci, chore, revert"
+            echo ""
+            echo "Examples:"
+            echo "  feat(auth): add login page"
+            echo "  fix(navbar): correct mobile menu toggle"
+            echo "  chore(deps): update dependencies"
+            echo "═══════════════════════════════════════════"
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All commit messages follow Conventional Commits!"
+
+  # ═══ Lint ═══
   lint:
     name: 🔍 Lint
     runs-on: ubuntu-latest
@@ -40,6 +94,7 @@ jobs:
       - name: Run ESLint
         run: pnpm lint
 
+  # ═══ Type Check ═══
   type-check:
     name: 🔤 Type Check
     runs-on: ubuntu-latest
@@ -62,6 +117,7 @@ jobs:
       - name: Run TypeScript check
         run: pnpm type-check
 
+  # ═══ Build ═══
   build:
     name: 🏗️ Build
     runs-on: ubuntu-latest

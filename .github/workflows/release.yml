@@ -1,0 +1,150 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  # ═══ CI Gate ═══
+  ci:
+    name: 🔍 CI Checks
+    uses: ./.github/workflows/ci.yml
+
+  # ═══ Release ═══
+  release:
+    name: 📦 Create Release
+    runs-on: ubuntu-latest
+    needs: ci
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── Extract version from merge commit ──
+      - name: Get version
+        id: version
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "📋 Merge commit: $COMMIT_MSG"
+
+          # Try release/* pattern first
+          VERSION=$(echo "$COMMIT_MSG" | grep -oP "release/\K[0-9]+\.[0-9]+\.[0-9]+[^ '\"]*" || echo "")
+
+          # Try hotfix/* pattern
+          if [ -z "$VERSION" ]; then
+            VERSION=$(echo "$COMMIT_MSG" | grep -oP "hotfix/\K[0-9]+\.[0-9]+\.[0-9]+[^ '\"]*" || echo "")
+          fi
+
+          # Fallback to date-based version
+          if [ -z "$VERSION" ]; then
+            VERSION=$(date +%Y.%m.%d)
+            echo "⚠️ Could not extract version, using date: $VERSION"
+          fi
+
+          echo "version=v$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Release version: v$VERSION"
+
+      # ── Generate categorized changelog ──
+      - name: Generate changelog
+        id: changelog
+        run: |
+          PREVIOUS_TAG=$(git tag --sort=-creatordate | head -n 1)
+
+          if [ -z "$PREVIOUS_TAG" ]; then
+            echo "📝 First release — collecting all commits"
+            COMMITS=$(git log --pretty=format:"%s|%h" HEAD)
+          else
+            echo "📝 Changes since $PREVIOUS_TAG"
+            COMMITS=$(git log --pretty=format:"%s|%h" ${PREVIOUS_TAG}..HEAD)
+          fi
+
+          # Categorize commits
+          FEATURES=""
+          FIXES=""
+          REFACTORS=""
+          DOCS=""
+          STYLES=""
+          PERFS=""
+          CHORES=""
+          OTHERS=""
+
+          while IFS='|' read -r MSG HASH; do
+            [ -z "$MSG" ] && continue
+
+            # Skip merge commits
+            if [[ "$MSG" =~ ^Merge ]]; then
+              continue
+            fi
+
+            ENTRY="- ${MSG} (\`${HASH}\`)"
+
+            if [[ "$MSG" =~ ^feat ]]; then
+              FEATURES="${FEATURES}${ENTRY}"$'\n'
+            elif [[ "$MSG" =~ ^fix ]]; then
+              FIXES="${FIXES}${ENTRY}"$'\n'
+            elif [[ "$MSG" =~ ^refactor ]]; then
+              REFACTORS="${REFACTORS}${ENTRY}"$'\n'
+            elif [[ "$MSG" =~ ^docs ]]; then
+              DOCS="${DOCS}${ENTRY}"$'\n'
+            elif [[ "$MSG" =~ ^style ]]; then
+              STYLES="${STYLES}${ENTRY}"$'\n'
+            elif [[ "$MSG" =~ ^perf ]]; then
+              PERFS="${PERFS}${ENTRY}"$'\n'
+            elif [[ "$MSG" =~ ^(chore|ci|build|test) ]]; then
+              CHORES="${CHORES}${ENTRY}"$'\n'
+            else
+              OTHERS="${OTHERS}${ENTRY}"$'\n'
+            fi
+          done <<< "$COMMITS"
+
+          # Build changelog
+          CHANGELOG=""
+
+          [ -n "$FEATURES" ] && CHANGELOG="${CHANGELOG}### 🚀 Features"$'\n'"${FEATURES}"$'\n'
+          [ -n "$FIXES" ] && CHANGELOG="${CHANGELOG}### 🐛 Bug Fixes"$'\n'"${FIXES}"$'\n'
+          [ -n "$REFACTORS" ] && CHANGELOG="${CHANGELOG}### ♻️ Refactors"$'\n'"${REFACTORS}"$'\n'
+          [ -n "$PERFS" ] && CHANGELOG="${CHANGELOG}### ⚡ Performance"$'\n'"${PERFS}"$'\n'
+          [ -n "$STYLES" ] && CHANGELOG="${CHANGELOG}### 🎨 Styles"$'\n'"${STYLES}"$'\n'
+          [ -n "$DOCS" ] && CHANGELOG="${CHANGELOG}### 📝 Documentation"$'\n'"${DOCS}"$'\n'
+          [ -n "$CHORES" ] && CHANGELOG="${CHANGELOG}### 🔧 Chores"$'\n'"${CHORES}"$'\n'
+          [ -n "$OTHERS" ] && CHANGELOG="${CHANGELOG}### 📌 Other"$'\n'"${OTHERS}"$'\n'
+
+          if [ -z "$CHANGELOG" ]; then
+            CHANGELOG="No notable changes in this release."
+          fi
+
+          # Output multiline
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "📋 Changelog generated successfully"
+
+      # ── Create tag ──
+      - name: Create Git Tag
+        run: |
+          git tag ${{ steps.version.outputs.version }}
+          git push origin ${{ steps.version.outputs.version }}
+
+      # ── Create GitHub Release ──
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: ${{ steps.version.outputs.version }}
+          body: |
+            ## What's Changed
+
+            ${{ steps.changelog.outputs.changelog }}
+
+            ---
+            *Released from Git Flow by merging into `master`*
+          generate_release_notes: false

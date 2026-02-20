@@ -1,0 +1,95 @@
+name: Git Flow Guards
+
+on:
+  pull_request:
+    branches:
+      - master
+      - develop
+
+jobs:
+  # ═══ Branch Policy Validation ═══
+  validate-branch:
+    name: 🛡️ Validate Git Flow
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check merge rules for master
+        if: github.base_ref == 'master'
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          echo "🔍 PR: $SOURCE → master"
+
+          if [[ "$SOURCE" == release/* ]] || [[ "$SOURCE" == hotfix/* ]]; then
+            echo "✅ Valid Git Flow: $SOURCE → master"
+          else
+            echo ""
+            echo "═══════════════════════════════════════════"
+            echo "❌ BLOCKED: '$SOURCE' cannot merge into 'master'"
+            echo ""
+            echo "Git Flow rules for master:"
+            echo "  ✅ release/* → master"
+            echo "  ✅ hotfix/*  → master"
+            echo ""
+            echo "  ❌ feature/* → master (must go to develop)"
+            echo "  ❌ bugfix/*  → master (must go to develop)"
+            echo "  ❌ develop   → master (use release branch)"
+            echo "═══════════════════════════════════════════"
+            exit 1
+          fi
+
+      - name: Check merge rules for develop
+        if: github.base_ref == 'develop'
+        run: |
+          SOURCE="${{ github.head_ref }}"
+          echo "🔍 PR: $SOURCE → develop"
+
+          if [[ "$SOURCE" == feature/* ]] || [[ "$SOURCE" == bugfix/* ]] || [[ "$SOURCE" == release/* ]] || [[ "$SOURCE" == hotfix/* ]]; then
+            echo "✅ Valid Git Flow: $SOURCE → develop"
+          else
+            echo ""
+            echo "═══════════════════════════════════════════"
+            echo "❌ BLOCKED: '$SOURCE' cannot merge into 'develop'"
+            echo ""
+            echo "Git Flow rules for develop:"
+            echo "  ✅ feature/* → develop"
+            echo "  ✅ bugfix/*  → develop"
+            echo "  ✅ release/* → develop (back-merge)"
+            echo "  ✅ hotfix/*  → develop (back-merge)"
+            echo ""
+            echo "  ❌ master    → develop (not allowed)"
+            echo "═══════════════════════════════════════════"
+            exit 1
+          fi
+
+  # ═══ Auto-Label PR ═══
+  auto-label:
+    name: 🏷️ Auto Label
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Add label based on branch type
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            const labels = [];
+
+            if (branch.startsWith('feature/')) labels.push('feature');
+            else if (branch.startsWith('bugfix/')) labels.push('bugfix');
+            else if (branch.startsWith('release/')) labels.push('release');
+            else if (branch.startsWith('hotfix/')) labels.push('hotfix');
+
+            if (labels.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
+                labels: labels,
+              });
+              console.log(`🏷️ Added labels: ${labels.join(', ')}`);
+            }
+
+  # ═══ CI as Required Check ═══
+  ci:
+    name: 🔍 CI Checks
+    uses: ./.github/workflows/ci.yml
