@@ -1,12 +1,27 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { ScrollProgress } from "@/components/ui/scroll-progress";
 
 export function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <>
       <ScrollProgress className="from-primary via-accent to-primary h-[2px] bg-gradient-to-r" />
-      <header className="fixed top-0 right-0 left-0 z-50 transition-all duration-500">
+      <header
+        className={`fixed top-0 right-0 left-0 z-50 transition-all duration-500 ${
+          scrolled
+            ? "border-b border-white/60 bg-white/70 shadow-sm backdrop-blur-xl"
+            : ""
+        }`}
+      >
         <div className="mx-auto flex h-24 max-w-7xl items-center justify-between px-8">
           {/* Logo */}
           <div className="flex items-center gap-3">
